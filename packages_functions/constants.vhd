@@ -25,4 +25,7 @@ package constants is
 	--delete?
 	constant instruction_reg_width 	: positive := 16;
 	constant status_reg_width 			: positive := 16;
+	
+		--sram 
+		constant STACK_POINTER_WIDTH	: positive := 16;
 end package;

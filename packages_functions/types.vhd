@@ -7,6 +7,9 @@ use ieee.std_logic_1164.all;
 use my_lib.constants.all;
 
 package types is
+	subtype word16 is std_logic_vector(15 downto 0);
+	subtype word8 is std_logic_vector(31 downto 0);
+	
 	type operation_type is (add, subtract, shift_l, shift_r, andd, orr);
 	attribute enum_encoding : string;
 --	attribute enum_encoding of operation_type : type is "000 001 010 011 100 101";
