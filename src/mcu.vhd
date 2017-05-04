@@ -26,7 +26,9 @@ architecture simple of mcu is
 	signal reg, reg_next 					: reg_type := (others => (others => '0'));
 	
 	-- data lines
-	signal alu_a, alu_b, rd	 				: std_logic_vector(REG_WIDTH-1 downto 0); 
+	signal alu_a, alu_b, Rd	 				: BYTE_U; 
+	signal alu_ab, 		Rd_16				: HALF_WORD_U;
+	
 	signal sram_data_in, sram_data_out	: std_logic_vector(REG_WIDTH-1 downto 0);
 	
 	signal ctl_lines_signal 				: control_line_type;
@@ -34,14 +36,15 @@ architecture simple of mcu is
 	--signals for programmer
 	signal programming_data					: std_logic_vector(FLASH_REG_WIDTH-1 downto 0);
 	signal clk_write 							: std_logic;
-	constant SPI_data 						: std_logic_vector(FLASH_REG_WIDTH-1 downto 0)		:= x"42FB";
+	constant SPI_data 						: std_logic_vector(FLASH_REG_WIDTH-1 downto 0)		:= x"FB";
 	signal SPI_ack 							: std_logic;
+	
+	signal SREG_o 	: BYTE;
+	signal SREG_i	: BYTE;
 	
 	-- test signals
 	signal counter : unsigned(3 downto 0) := (others => '1');
 begin		
-	
-	
 	
 	process (clk, rst)
 	begin
@@ -52,7 +55,7 @@ begin
 			
 			reg <= reg_next;
 			
-			if reg.status_register(overflow) then 
+			if reg.status_register(V) then 
 				reg.program_counter <= std_logic_vector(unsigned(reg.program_counter) + 1);
 			end if;
 		end if;
@@ -105,7 +108,7 @@ begin
 		
 		-- outputs				
 			ctl_lines 	=> ctl_lines_signal,
-			rd				=> rd
+			Rd				=> Rd
 		);
 	
 	general_purpose_register_1 : 
@@ -118,10 +121,14 @@ begin
 
 --			gpr_bus 	=> gpr_bus_signal,
 			gpr_bus	=> ctl_lines_signal.gpr_ctl,
-			rd 		=> rd,
+			Rd 		=> Rd,
+			Rd_16		=> Rd_16,
+			
 		-- outputs	
 			alu_a 	=> alu_a,
-			alu_b 	=> alu_b
+			alu_b 	=> alu_b,
+			
+			alu_ab	=> alu_ab
 		);
 		
 	arithmetic_logic_unit_1 : 
@@ -134,10 +141,17 @@ begin
 			
 			alu_a 		=> alu_a,
 			alu_b 		=> alu_b,
+			alu_ab		=> alu_ab,
+			
 			operation	=> ctl_lines_signal.operation,
+			
+			SREG_i		=> reg.status_register,
+			
 		-- outputs
-			rd		=> rd,
-			flags	=> reg_next.status_register(flags_width-1 downto 0)
+			Rd				=> Rd,
+			Rd_16			=> Rd_16,
+			SREG_o		=> reg_next.status_register
+		
 		);
 	
 	sram_1 : 
@@ -149,10 +163,10 @@ begin
 			rst 			=> rst,
 		
 			sram_bus 	=> ctl_lines_signal.sram_ctl,
-			data_in		=> rd,
+			data_in		=> Rd,
 		-- input/output
---			data_inout 	=> rd
-			data_out		=> rd
+--			data_inout 	=> Rd
+			data_out		=> Rd
 		);
 	
 end architecture;

@@ -16,7 +16,7 @@ entity instruction_decoder is
 --			
 --			sram_bus : out sram_bus_type;
 			ctl_lines 	: out control_line_type;
-			rd				: out std_logic_vector(REG_WIDTH-1 downto 0)
+			rd				: out BYTE_U
 			
 --			operation	: out operation_type
 		);
@@ -24,22 +24,22 @@ end entity;
 
 architecture nothing of instruction_decoder is
 	
-	alias addr_rd 	 is instruction_in	(GPR_ADDR_REG_WIDTH-1 		downto 0);
-	alias addr_rs1  is instruction_in	(2*GPR_ADDR_REG_WIDTH-1 	downto GPR_ADDR_REG_WIDTH);
-	alias addr_rs2  is instruction_in	(3*GPR_ADDR_REG_WIDTH-1 	downto 2*GPR_ADDR_REG_WIDTH);
-	alias operation is instruction_in	(14 downto 12);
-	
-	alias sram_w_en   is instruction_in(15);
-	alias sram_r_en   is instruction_in(14);
-	alias sram_w_addr is instruction_in(6 downto 0);
-	alias sram_r_addr is instruction_in(13 downto 7);
-	
+--	alias addr_rd 	 is instruction_in	(GPR_ADDR_REG_WIDTH-1 		downto 0);
+--	alias addr_rs1  is instruction_in	(2*GPR_ADDR_REG_WIDTH-1 	downto GPR_ADDR_REG_WIDTH);
+--	alias addr_rs2  is instruction_in	(3*GPR_ADDR_REG_WIDTH-1 	downto 2*GPR_ADDR_REG_WIDTH);
+--	alias operation is instruction_in	(14 downto 12);
+--	
+--	alias sram_w_en   is instruction_in(15);
+--	alias sram_r_en   is instruction_in(14);
+--	alias sram_w_addr is instruction_in(6 downto 0);
+--	alias sram_r_addr is instruction_in(13 downto 7);
+--	
  
 begin
 	
-ctl_lines.gpr_ctl		<= (addr_rd, addr_rs1, addr_rs2);
-ctl_lines.sram_ctl	<= (sram_w_en, sram_w_addr, Sram_r_en, sram_r_addr);
-									
-ctl_lines.operation 	<= operation_type'val(to_integer(unsigned(operation)));
+--ctl_lines.gpr_ctl		<= (addr_rd, addr_rs1, addr_rs2);
+--ctl_lines.sram_ctl	<= (sram_w_en, sram_w_addr, Sram_r_en, sram_r_addr);
+--									
+--ctl_lines.operation 	<= operation_type'val(to_integer(unsigned(operation)));
 
 end architecture;

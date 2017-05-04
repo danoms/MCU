@@ -66,10 +66,10 @@ use 	my_lib.constants.all,
 			rst 			: in std_logic;
 		
 			sram_bus 	: in sram_bus_type;
-			data_in		: in std_logic_vector(REG_WIDTH-1 downto 0);
+			data_in		: in BYTE_U;
 		-- outputs
 --			data_inout 	: inout std_logic_vector(REG_WIDTH-1 downto 0)
-			data_out		: out std_logic_vector(REG_WIDTH-1 downto 0)
+			data_out		: out BYTE_U
 		
 		);
 	end component;
@@ -86,7 +86,7 @@ use 	my_lib.constants.all,
 --			sram_bus : out sram_bus_type;
 			
 			ctl_lines 	: out control_line_type;
-			rd 			: out std_logic_vector(reg_width-1 downto 0)
+			rd 			: out BYTE_U
 			
 --			operation	: out operation_type
 		);
@@ -105,11 +105,14 @@ use 	my_lib.constants.all,
 		rst 		: in std_logic;
 
 		gpr_bus 	: in gpr_bus_type;
-		rd 		: in std_logic_vector(reg_width-1 downto 0);
-	
+		Rd 		: in BYTE_U;
+		Rd_16		: in HALF_WORD_U;
+		
 	-- outputs
-		alu_a 	: out std_logic_vector(reg_width-1 downto 0);
-		alu_b 	: out std_logic_vector(reg_width-1 downto 0)
+		alu_a 	: out BYTE_U;
+		alu_b 	: out BYTE_U;
+		
+		alu_ab	: out HALF_WORD_U
 	);												
 	end component;
 	
@@ -120,12 +123,17 @@ use 	my_lib.constants.all,
 			clk 	: in std_logic;
 			rst 	: in std_logic;
 			
-			alu_a 		: in std_logic_vector(reg_width-1 downto 0);
-			alu_b 		: in std_logic_vector(reg_width-1 downto 0);
+			alu_a 		: in BYTE_U;
+			alu_b 		: in BYTE_U;
+			alu_ab		: in HALF_WORD_U;
+			
 			operation	: in operation_type;
 			
-			rd		: out std_logic_vector(reg_width-1 downto 0);
-			flags	: out std_logic_vector(flags_width-1 downto 0)
+			SREG_i		: in BYTE;
+			
+			Rd				: out BYTE_U;
+			Rd_16			: out HALF_WORD_U;
+			SREG_o		: out BYTE
 		);
 	end component;
 	

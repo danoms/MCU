@@ -23,18 +23,18 @@ entity program_flash is
 		write_en					: in std_logic;
 		read_en 					: in std_logic;
 		
-		programming_data		: in std_logic_vector(reg_width-1 downto 0);
+		programming_data		: in BYTE_U;
 		
 		program_counter 		: in std_logic_vector(reg_width-1 downto 0);
 	
 	-- outputs
-		instruction_out 		: out std_logic_vector(reg_width-1 downto 0) := (others => '0')
+		instruction_out 		: out BYTE
 	);
 end entity;
 
 architecture simple of program_flash is
 	
-	signal memory_reg, memory_next	: reg_array_type(0 to 2**program_flash_depth)(reg_width-1 downto 0)	:= (others => (others => '0'));
+	signal memory_reg, memory_next	: reg_array_type(0 to 2**program_flash_depth)	:= (others => (others => '0'));
 	
 	signal counter	: unsigned(program_flash_depth downto 0);-- := (others => '0');
 --	alias PC is program_count;
@@ -73,5 +73,5 @@ begin
 			end if;
 		end process;
 
-instruction_out <= memory_reg(to_integer(unsigned(PC)));
+instruction_out <= std_logic_vector(memory_reg(to_integer(unsigned(PC))));
 end architecture;

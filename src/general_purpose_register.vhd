@@ -19,16 +19,19 @@ entity general_purpose_register is
 		rst 		: in std_logic;
 
 		gpr_bus 	: in gpr_bus_type;
-		rd 		: in std_logic_vector(reg_width-1 downto 0);
-	
+		Rd 		: in BYTE_U;
+		Rd_16		: in HALF_WORD_U;
+		
 	-- outputs
-		alu_a 	: out std_logic_vector(reg_width-1 downto 0);
-		alu_b 	: out std_logic_vector(reg_width-1 downto 0)
+		alu_a 	: out BYTE_U;
+		alu_b 	: out BYTE_U;
+		
+		alu_ab	: out HALF_WORD_U
 	);
 end entity;
 
 architecture nothing of general_purpose_register is
-	signal gpr_registers_reg, gpr_registers_next : reg_array_type(reg_depth-1 downto 0)(reg_width-1 downto 0)
+	signal gpr_registers_reg, gpr_registers_next : BYTE_U_ARRAY(reg_depth-1 downto 0)
 															:= (others => (others => '0'));
 
 begin
