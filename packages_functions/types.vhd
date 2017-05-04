@@ -38,7 +38,8 @@ package types is
 	
 	type operation_type is (ADD, ADC, ADIW, SUB, SUBI, SBC, SBCI, SBIW,
 									ANDD, ANDI, ORR, ORI, EOR, COM, NEG, SBR, CBR,
-									INC, DEC, TST, CLR, SER, MUL, MULS, MULSU, 		shift_l, shift_r);
+									INC, DEC, TST, CLR, SER, MUL, MULS, MULSU,
+									MOV, MOVW, LDI, shift_l, shift_r);
 								
 	
 	attribute enum_encoding : string;

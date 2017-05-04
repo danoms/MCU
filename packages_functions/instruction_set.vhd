@@ -476,27 +476,21 @@ package instruction_set is
 ------------------------Data transfer instructions----------------------------------
 ------------------------------------------------------------------------------------
 	
---	-- C : 1.0
---	procedure MOV (	signal Rd, Rr	: in BYTE_U;
---							signal SREG_i	: in BYTE;
---							
---							signal R			: out BYTE_U;
---							signal SREG_o	: out BYTE	);
---	
---	-- C : 2.0
---	procedure MOVW ( 	signal Rd, Rr	: in BYTE_U;
---							signal SREG_i	: in BYTE;
---							
---							signal R			: out BYTE_U;
---							signal SREG_o	: out BYTE	);
---							
---	-- C : 3.0
---	procedure LDI ( 	signal Rd, Rr	: in BYTE_U;
---							signal SREG_i	: in BYTE;
---							
---							signal R			: out BYTE_U;
---							signal SREG_o	: out BYTE	);
---							
+	-- C : 1.0
+	procedure MOV (	signal Rr		: in BYTE_U;
+							
+							signal R			: out BYTE_U);
+	
+	-- C : 2.0
+	procedure MOVW ( 	signal Rr		: in HALF_WORD_U;
+							
+							signal R			: out HALF_WORD_U);
+							
+	-- C : 3.0
+	procedure LDI ( 	signal immediate		: in K8;
+							
+							signal R			: out BYTE_U);
+							
 --	-- C : 4.0
 --	procedure LD ( 	signal Rd, Rr	: in BYTE_U;
 --							signal SREG_i	: in BYTE;
@@ -517,7 +511,7 @@ package instruction_set is
 --							
 --							signal R			: out BYTE_U;
 --							signal SREG_o	: out BYTE	);
---	
+	
 --	-- C : 7.0
 --	procedure STS ( 	signal Rd, Rr	: in BYTE_U;
 --							signal SREG_i	: in BYTE;
@@ -1585,5 +1579,156 @@ package body instruction_set is
 --	-- out
 --		R			<= to_unsigned(tmp_R);
 --		SREG_o	<= tmp_SREG_o;
+
+------------------------------------------------------------------------------------
+------------------------Data transfer instructions----------------------------------
+------------------------------------------------------------------------------------
+
+
+	-- C : 1.0
+	procedure MOV (	signal Rr		: in BYTE_U;
+							
+							signal R			: out BYTE_U) is
+	begin
+	-- out
+		R			<= Rr; 
+	end procedure;		
+	
+	-- C : 2.0
+	procedure MOVW ( 	signal Rr		: in HALF_WORD_U;
+							
+							signal R			: out HALF_WORD_U) is
+	begin
+	-- out 
+		R	<= Rr;
+	end procedure;
+	
+	-- C : 3.0
+	procedure LDI ( 	signal immediate		: in K8;
+							
+							signal R			: out BYTE_U) is
+	begin
+		R	<= immediate;
+	end procedure;
+							
+--	-- C : 4.0
+--	procedure LD ( 	signal immediate		: in K8;
+--							
+--							signal R			: out HALF_WORD_U) is
+--	begin
+--		R	<= immediate;
 --	end procedure;
+							
+--	-- C : 5.0
+--	procedure LDS ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--	
+--	-- C : 6.0
+--	procedure LDD ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+	
+	-- C : 7.0
+--	procedure STS ( 	signal Rr		: in BYTE_U;			
+--							
+--							signal R			: out BYTE_U) is
+--	begin
+--		
+--	end procedure;
+							
+--	-- C : 8.0
+--	procedure ST ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 9.0
+--	procedure STDD ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 10.0
+--	procedure LPM ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 11.0
+--	procedure ELPM ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 12.0
+--	procedure SPM ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 13.0
+--	procedure INN ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 14.0
+--	procedure OUTT ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 15.0
+--	procedure PUSH ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 16.0
+--	procedure POP ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 17.0
+--	procedure XCH ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 18.0
+--	procedure LAS ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 19.0
+--	procedure LAC ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
+--							
+--	-- C : 18.0
+--	procedure LAT ( 	signal Rd, Rr	: in BYTE_U;
+--							signal SREG_i	: in BYTE;
+--							
+--							signal R			: out BYTE_U;
+--							signal SREG_o	: out BYTE	);
 end package body;

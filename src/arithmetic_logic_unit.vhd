@@ -178,8 +178,14 @@ do_operation :
 	
 	-- Data transfer instructions
 			
---			when MOV		=>
---				MOV()
+			when MOV		=>
+				MOV(	alu_a, Rd_next);
+			
+			when MOVW	=>
+				MOVW(	alu_ab, Rd_16_next);
+			
+			when LDI		=>
+				LDI (	immediate8, Rd_next);
 			
 			when others => 
 				Rd_next 			<= alu_a - alu_b; 
